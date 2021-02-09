@@ -16,7 +16,7 @@ var combineCommand = &cobra.Command{
 
 This 
 - echo -e "9d32f670afce9fbeedde38e5\n82e06c97ccfbc70cd224f6a0\n3718d0fedf92f7f2e12e1343" \
-  | secret-sharer combines`,
+  | secret-sharer combine`,
 
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		return CheckRequiredFlags(cmd.Flags())

@@ -30,3 +30,11 @@ the waiting request.
 
 Typically, the output of the combine command will be piped directly into another command, thereby avoiding the plaintext 
 key from being serialised in any persistent form (or indeed the operator seeing the secret).
+
+To generate new split secrets from original secrets (effectively "re-split"):
+```shell
+> echo -n "4a387c3781fab11b7648558317\n647f0916aa3c92a503d38e4571" | secret-sharer combine | secret-sharer split -n 7 -t 3
+3904a8720c19b74d3ef13fcc1c
+... snip 5 ...
+2f927f87128c3a793282297503
+```

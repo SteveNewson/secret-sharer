@@ -1,7 +1,7 @@
 on: [push, pull_request]
 name: Build
 jobs:
-  test:
+  build:
     strategy:
       matrix:
         go-version: [1.15.x]
@@ -40,4 +40,4 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +%FT%T%z)"
       - name: Build
-        run: go build -installsuffix 'static' ldflags "-w -s -X github.com/SteveNewson/secret-sharer/internal.Version=${{ steps.semver_step.outputs.version }} -X github.com/SteveNewson/secret-sharer/internal.Build=${{ steps.date.outputs.date }} -X main.Version=${{ steps.semver_step.outputs.version }} -X main.Build=${BUILD}" -v ./cmd/secret-sharer
+        run: go build -installsuffix 'static' -ldflags "-w -s -X github.com/SteveNewson/secret-sharer/internal.Version=${{ steps.semver_step.outputs.version }} -X github.com/SteveNewson/secret-sharer/internal.Build=${{ steps.date.outputs.date }} -X main.Version=${{ steps.semver_step.outputs.version }} -X main.Build=${{ steps.date.outputs.date }}" -v ./cmd/secret-sharer

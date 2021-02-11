@@ -24,7 +24,8 @@ jobs:
           fetch-depth: 0
       - id: semver_step
         name: Set version
-        uses: paulhatch/semantic-version@v3.3
+        # v3.3.1
+        uses: paulhatch/semantic-version@2909e6bd516ac404287de0a8b7ba82cb6caa7613
         with:
           # The prefix to use to identify tags
           branch: "main"
@@ -46,7 +47,8 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +%FT%T%z)"
       - name: Build with xgo
-        uses: crazy-max/ghaction-xgo@v1
+        # v1.5.0
+        uses: crazy-max/ghaction-xgo@af20c6e1f71753f044065b73e6caf72e04883fcf
         with:
           xgo_version: latest
           go_version: ${{ matrix.go_version }}

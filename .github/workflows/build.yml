@@ -5,8 +5,7 @@ jobs:
     strategy:
       matrix:
         go-version: [1.15.x]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Install Go
         uses: actions/setup-go@v2
@@ -21,7 +20,7 @@ jobs:
         uses: paulhatch/semantic-version@v3.3
         with:
           # The prefix to use to identify tags
-          branch: "master"
+          branch: "main"
           # The prefix to use to identify tags
           tag_prefix: "v"
           # A string which, if present in a git commit, indicates that a change represents a
@@ -39,5 +38,15 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +%FT%T%z)"
-      - name: Build
-        run: go build -installsuffix 'static' -ldflags "-w -s -X github.com/SteveNewson/secret-sharer/internal.Version=${{ steps.semver_step.outputs.version }} -X github.com/SteveNewson/secret-sharer/internal.Build=${{ steps.date.outputs.date }} -X main.Version=${{ steps.semver_step.outputs.version }} -X main.Build=${{ steps.date.outputs.date }}" -v ./cmd/secret-sharer
+      - name: Build with xgo
+        uses: crazy-max/ghaction-xgo@v1
+        with:
+          xgo_version: latest
+          go_version: ${{ matrix.go_version }}
+          dest: build
+          prefix: secret-sharer
+          targets: windows/386,windows/amd64,linux/386,linux/amd64,darwin/386,darwin/amd64
+          v: true
+          x: false
+          pkg: ./cmd/secret-sharer
+          ldflags: -w -s -X github.com/SteveNewson/secret-sharer/internal.Version=${{ steps.semver_step.outputs.version }} -X github.com/SteveNewson/secret-sharer/internal.Build=${{ steps.date.outputs.date }} -X main.Version=${{ steps.semver_step.outputs.version }} -X main.Build=${{ steps.date.outputs.date }}

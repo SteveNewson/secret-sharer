@@ -67,12 +67,10 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Generate hashes
-        # v2
-        uses: MCJack123/ghaction-generate-release-hashes@4e369747b571774842c7bf3bdc4d9513feddf1c0
-        with:
-          hash-type: sha256
-          file-name: buiild/hashes.txt
+      - name: sha256
+        id: sha256
+        run: |
+          sha256sum build/secret-sharer-* > build/hashes.sha256.txt
       - name: Upload Release Assets
         # v1.0.0
         uses: glentiki/xbin-release-action@736088fa1388541bd9224f2749445ee3bd8890a5

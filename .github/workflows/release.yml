@@ -70,7 +70,7 @@ jobs:
       - name: sha256
         id: sha256
         run: |
-          sha256sum build/secret-sharer-* > build/hashes.sha256.txt
+          sha256sum build/secret-sharer-* | sed 's/ build\///g' > build/hashes.sha256.txt
       - name: Upload Release Assets
         # v1.0.0
         uses: glentiki/xbin-release-action@736088fa1388541bd9224f2749445ee3bd8890a5

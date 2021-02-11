@@ -57,12 +57,6 @@ jobs:
           x: false
           pkg: ./cmd/secret-sharer
           ldflags: -w -s -X github.com/SteveNewson/secret-sharer/internal.Version=${{ steps.semver_step.outputs.version }} -X github.com/SteveNewson/secret-sharer/internal.Build=${{ steps.date.outputs.date }} -X main.Version=${{ steps.semver_step.outputs.version }} -X main.Build=${{ steps.date.outputs.date }}
-      - name: Generate hashes
-        # v2
-        uses: MCJack123/ghaction-generate-release-hashes@4e369747b571774842c7bf3bdc4d9513feddf1c0
-        with:
-          hash-type: sha256
-          file-name: buiild/hashes.txt
       - name: Create Release
         uses: actions/create-release@v1.0.0
         id: create_release
@@ -73,6 +67,12 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+      - name: Generate hashes
+        # v2
+        uses: MCJack123/ghaction-generate-release-hashes@4e369747b571774842c7bf3bdc4d9513feddf1c0
+        with:
+          hash-type: sha256
+          file-name: buiild/hashes.txt
       - name: Upload Release Assets
         # v1.0.0
         uses: glentiki/xbin-release-action@736088fa1388541bd9224f2749445ee3bd8890a5
